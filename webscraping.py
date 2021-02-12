@@ -3,14 +3,12 @@ from bs4 import BeautifulSoup
 import queue
 from threading import Thread
 import time
-import json
 
 def convert_row_count(row_count):
     try:
-        if row_count is not None:
-            row_count = int(row_count.split(' ')[0].strip())
+        row_count = int(row_count.split(' ')[0].strip())
     except ValueError:
-        row_count = None
+        row_count = 0
 
     return row_count    
 
@@ -34,8 +32,8 @@ def get_file_details(text):
         if item.strip() == '' or item.strip() == 'executable file':
             items.remove(item)
 
-    row_count = None
-    byte_count = None
+    row_count = ''
+    byte_count = ''
     
     if len(items) == 1:
         byte_count = items[0].strip()
@@ -94,9 +92,3 @@ def process_url(path):
             output[name] = process_file(item_path)
 
     return output
-
-#tree = process_url('freeCodeCamp/freeCodeCamp')
-#tree = process_url('vivadecora/desafio-backend-trabalhe-conosco')
-#tree = process_url('ohmyzsh/ohmyzsh')
-tree = process_url('Edlaine-Pontes/Forkids')
-print(json.dumps(tree, indent = 2))
